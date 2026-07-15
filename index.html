@@ -260,8 +260,8 @@
       </div>
 
       <div class="flex flex-col gap-3">
-        <button id="sendEmailBtn" onclick="sendGoogleEmail()" class="w-full bg-ezgreen hover:bg-ezgreen-dark text-white font-extrabold py-3.5 px-6 rounded-2xl shadow-lg shadow-ezgreen/20 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-base">
-          <i class="fa-brands fa-google text-lg"></i> 開啟 Google Mail 發送通知信
+        <button id="sendEmailBtn" onclick="sendEmailNotification()" class="w-full bg-ezgreen hover:bg-ezgreen-dark text-white font-extrabold py-3.5 px-6 rounded-2xl shadow-lg shadow-ezgreen/20 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-base">
+          <i class="fa-solid fa-paper-plane text-lg"></i> 開啟 Email 發送通知信
         </button>
         <button onclick="toggleModal(false)" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2.5 px-6 rounded-2xl transition-all text-sm">
           回到指南畫面繼續查看
@@ -523,7 +523,7 @@
       }, 250);
     }
 
-    function sendGoogleEmail() {
+    function sendEmailNotification() {
       const empId = userState.empId || '未填寫員編';
       const empName = userState.empName || '未填寫姓名';
 
@@ -531,9 +531,13 @@
       const subject = `〔${empId}〕＿〔${empName}〕已完成新人闖關指南並成為易遊網初級玩家`;
       const body = `親愛的易遊網訓練團隊您好，\n\n我是新進同仁 ${empName} (員工編號: ${empId})。\n\n我已經成功勾選並通關所有「新人闖關指南」任務！\n目前通關進度為 100% 滿分！\n特此發送本通知信。期待未來與大家一起在易遊網創造美好回憶。\n\n系統紀錄時間: ${new Date().toLocaleString()}\n本信件由「新人闖關指南 APP」一鍵生成。`;
 
-      const mailtoUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipient)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.open(mailtoUrl, '_blank');
-      showToast("即將導向 Google Mail，請點選寄出！", "success");
+      // 使用原生的 mailto 協定，確保在手機上能喚醒預設的郵件 App
+      const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      // 導向 mailto 連結
+      window.location.href = mailtoLink;
+      
+      showToast("即將開啟您的預設郵件軟體，請點選寄出！", "success");
     }
 
     // MODAL TOGGLERS
