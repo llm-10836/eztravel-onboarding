@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>易遊網 ezTravel - 新人闖關指南 AI 旗艦版</title>
+  <title>易遊網 ezTravel - 新人闖關指南</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts - Inter & Noto Sans TC -->
@@ -40,8 +40,7 @@
           boxShadow: {
             'custom': '0 8px 30px rgba(17, 208, 115, 0.08)',
             'card': '0 4px 20px rgba(0, 0, 0, 0.04)',
-            'glow': '0 0 15px rgba(11, 168, 92, 0.2)',
-            'blue-glow': '0 0 15px rgba(25, 118, 210, 0.2)',
+            'glow': '0 0 15px rgba(11, 168, 92, 0.2)'
           }
         }
       }
@@ -57,43 +56,28 @@
       font-family: 'Inter', 'Noto Sans TC', sans-serif;
     }
     
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background-color: #11D073;
-      border-radius: 20px;
-    }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #11D073; border-radius: 20px; }
 
-    .bounce-hover:hover {
-      transform: translateY(-2px);
-      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
     .progress-ring__circle {
       transition: stroke-dashoffset 0.4s ease-out;
       transform: rotate(-90deg);
       transform-origin: 50% 50%;
     }
 
-    /* Typing effect styling */
-    .typing-indicator span {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      background-color: #11D073;
-      border-radius: 50%;
-      animation: bounce 1.4s infinite ease-in-out both;
+    /* 平滑的折疊動畫 */
+    .accordion-content {
+      transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, margin 0.3s ease-in-out;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      margin-top: 0;
     }
-    .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-    .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-
-    @keyframes bounce {
-      0%, 80%, 100% { transform: scale(0); }
-      40% { transform: scale(1.0); }
+    .accordion-content.expanded {
+      max-height: 500px; /* 足夠容納 9 堂課的高度 */
+      opacity: 1;
+      margin-top: 0.75rem; /* mt-3 */
     }
   </style>
 </head>
@@ -102,7 +86,6 @@
   <!-- Header / Navigation Bar -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-ezgreen-light py-3 px-4 shadow-sm">
     <div class="max-w-xl mx-auto flex items-center justify-between">
-      <!-- ezTravel Brand Styling -->
       <div class="flex items-center space-x-2">
         <div class="bg-ezgreen p-2 rounded-xl shadow-md text-white flex items-center justify-center w-10 h-10">
           <i class="fa-solid fa-plane-departure text-lg animate-bounce"></i>
@@ -120,24 +103,21 @@
 
   <main class="max-w-xl mx-auto px-4 mt-6 space-y-6">
 
-    <!-- Mascot Welcome & Profile Card -->
+    <!-- Mascot Welcome & Profile Card (保留上一版的設計) -->
     <section class="bg-white rounded-3xl p-6 shadow-custom border border-ezgreen-light relative overflow-hidden">
-      <!-- Mascot Background Watermark Graphic -->
       <div class="absolute -right-10 -bottom-10 opacity-5 pointer-events-none transform rotate-12">
         <i class="fa-solid fa-compass text-9xl text-ezgreen"></i>
       </div>
 
       <div class="flex flex-col sm:flex-row items-center gap-5 relative z-10">
-        <!-- Image Mascot -->
         <div class="relative flex-shrink-0">
           <div class="w-24 h-24 bg-gradient-to-b from-ezgreen-light to-white rounded-full border-2 border-ezgreen flex items-center justify-center shadow-inner relative overflow-hidden">
-            <img id="mascotImg" src="6-12_3.png" alt="凹豆兒" class="w-20 h-20 object-contain" />
+            <img src="6-12_3.png" alt="凹豆兒" class="w-20 h-20 object-contain" />
           </div>
         </div>
 
-        <!-- Mascot Welcome Text -->
         <div class="flex-1 w-full text-center sm:text-left">
-          <div class="inline-block bg-ezyellow-light border border-ezyellow text-slate-700 text-xs px-3 py-1 rounded-xl mb-2 font-medium">
+          <div class="inline-block bg-ezyellow-light border border-ezyellow text-slate-700 text-xs px-3 py-1 rounded-full mb-2 font-medium shadow-sm">
             <span class="text-xs mr-1">💬</span>
             <span id="mascotQuote">歡迎加入！請依序完成下方任務，開啟你的易遊網旅程喔！</span>
           </div>
@@ -150,7 +130,6 @@
 
       <hr class="my-5 border-dashed border-slate-200">
 
-      <!-- Profile Input Fields -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label class="block text-xs font-bold text-slate-500 mb-1.5 tracking-wider"><i class="fa-solid fa-id-card text-ezgreen mr-1"></i> 員工編號 (Emp ID)</label>
@@ -165,7 +144,7 @@
       </div>
     </section>
 
-    <!-- Progress Indicator Dashboard -->
+    <!-- Progress Indicator Dashboard (保留上一版的設計) -->
     <section class="bg-white rounded-3xl p-6 shadow-custom border border-ezgreen-light relative overflow-hidden">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -175,7 +154,6 @@
       </div>
 
       <div class="flex flex-col md:flex-row items-center justify-center gap-6 py-2 relative">
-        <!-- SVG Radial Circular Progress -->
         <div class="relative w-40 h-40 flex items-center justify-center flex-shrink-0">
           <svg class="w-full h-full transform -rotate-1">
             <circle cx="80" cy="80" r="66" stroke="#E2FBEF" stroke-width="12" fill="transparent" class="opacity-80" />
@@ -190,7 +168,6 @@
           </div>
         </div>
 
-        <!-- Incentive Message Box -->
         <div class="w-full text-center md:text-left flex-1">
           <div class="inline-flex items-center gap-1.5 bg-ezgreen-light border border-ezgreen/20 text-ezgreen-dark px-3 py-1 rounded-full text-xs font-bold mb-3 shadow-sm">
             <i class="fa-solid fa-map-location-dot"></i> 登機口狀態
@@ -202,29 +179,31 @@
       </div>
     </section>
 
-    <!-- Standard Tasks Checklist -->
+    <!-- Tasks Checklist (重構為截圖指定的卡片樣式與折疊清單) -->
     <section class="bg-white rounded-3xl p-6 shadow-custom border border-ezgreen-light transition-all">
-      <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-4">
+      <div class="flex items-center justify-between mb-4">
         <div>
-          <h3 class="text-base font-extrabold text-slate-800 flex items-center gap-2">
+          <h3 class="text-lg font-extrabold text-slate-800 flex items-center gap-2">
             <i class="fa-solid fa-route text-ezgreen"></i>
-            通關挑戰任務 (<span id="completedCount">0</span>/14)
+            通關挑戰任務 (<span id="completedCount" class="mx-1 text-ezgreen-dark">0</span>/ 14)
           </h3>
           <p class="text-xs text-slate-400 mt-1">勾選後同步儲存於本機並提升完成度</p>
         </div>
-        <button onclick="resetAllProgress()" class="text-xs font-semibold text-slate-400 hover:text-rose-500 transition-colors flex items-center gap-1 border border-slate-100 hover:border-rose-100 px-3 py-1.5 rounded-xl hover:bg-rose-50">
+        <button onclick="resetAllProgress()" class="text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors flex items-center gap-1.5 border border-slate-200 bg-slate-50 hover:bg-slate-100 px-3 py-1.5 rounded-full">
           <i class="fa-solid fa-rotate-right"></i> 重設
         </button>
       </div>
 
-      <div class="flex flex-wrap gap-2 mb-4">
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100"><i class="fa-solid fa-file-invoice mr-1"></i> 報到資料繳交</span>
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-blue-50 text-blue-600 border border-blue-100"><i class="fa-solid fa-key mr-1"></i> 行政管理</span>
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-pink-50 text-pink-600 border border-pink-100"><i class="fa-solid fa-hashtag mr-1"></i> 社群關注</span>
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-amber-50 text-amber-600 border border-amber-100"><i class="fa-solid fa-graduation-cap mr-1"></i> 系統與課程</span>
+      <!-- 分類標籤 (依據截圖設計) -->
+      <div class="flex flex-wrap gap-2 mb-5 border-b border-slate-100 pb-5">
+        <span class="text-xs font-bold px-3 py-1 rounded flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-100"><i class="fa-regular fa-folder-open"></i> 報到資料繳交</span>
+        <span class="text-xs font-bold px-3 py-1 rounded flex items-center gap-1 bg-blue-50 text-blue-700 border border-blue-100"><i class="fa-solid fa-key"></i> 行政管理</span>
+        <span class="text-xs font-bold px-3 py-1 rounded flex items-center gap-1 bg-pink-50 text-pink-700 border border-pink-100"><i class="fa-brands fa-hashtag"></i> 社群關注</span>
+        <span class="text-xs font-bold px-3 py-1 rounded flex items-center gap-1 bg-amber-50 text-amber-700 border border-amber-100"><i class="fa-solid fa-graduation-cap"></i> 系統與課程</span>
       </div>
 
-      <div id="taskList" class="space-y-3.5 max-h-[450px] overflow-y-auto pr-1 custom-scrollbar">
+      <!-- 任務清單列表容器 -->
+      <div id="taskList" class="space-y-3">
         <!-- Generated by JavaScript -->
       </div>
     </section>
@@ -234,8 +213,8 @@
   <!-- 100% Celebration Modal Dialog -->
   <div id="celebrationModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden transition-all duration-300">
     <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl border-4 border-ezgreen relative overflow-hidden transform scale-95 transition-transform duration-300" id="modalCard">
-      <div class="w-24 h-24 bg-ezyellow rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white shadow-lg animate-bounce">
-        <i class="fa-solid fa-gift text-4xl text-slate-800"></i>
+      <div class="w-20 h-20 bg-ezyellow rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white shadow-lg">
+        <i class="fa-solid fa-gift text-3xl text-slate-800"></i>
       </div>
 
       <h2 class="text-2xl font-black text-slate-800 mb-2">🎉 恭喜完成所有挑戰！ 🎉</h2>
@@ -248,22 +227,16 @@
         <div class="flex items-center gap-2 text-slate-700 font-bold mb-1 border-b border-slate-200 pb-1.5">
           <i class="fa-solid fa-paper-plane text-ezgreen"></i> 系統通知格式確認
         </div>
-        <p class="text-xs">
-          <strong>收件者：</strong> eztraining@eztravel.com.tw
-        </p>
-        <p class="text-xs">
-          <strong>信件主旨：</strong> <span class="bg-ezyellow/50 px-1 py-0.5 rounded text-slate-800 font-medium" id="emailSubjectPreview">主旨載入中...</span>
-        </p>
-        <p class="text-xs">
-          <strong>信件內容：</strong> <span>將透過 Google 郵件 (Gmail) 自動填寫完整主旨與內文資訊，您可以重複發送，便利主管記錄！</span>
-        </p>
+        <p class="text-xs text-slate-500"><strong>收件者：</strong> eztraining@eztravel.com.tw</p>
+        <p class="text-xs text-slate-500"><strong>信件主旨：</strong> <span class="bg-ezyellow/30 px-1 py-0.5 rounded text-slate-700" id="emailSubjectPreview">主旨載入中...</span></p>
+        <p class="text-[11px] text-slate-400 mt-2">將透過系統自動填寫主旨與資訊，您可以重複發送！</p>
       </div>
 
       <div class="flex flex-col gap-3">
-        <button id="sendEmailBtn" onclick="sendEmailNotification()" class="w-full bg-ezgreen hover:bg-ezgreen-dark text-white font-extrabold py-3.5 px-6 rounded-2xl shadow-lg shadow-ezgreen/20 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-base">
-          <i class="fa-solid fa-paper-plane text-lg"></i> 開啟 Email 發送通知信
+        <button onclick="sendEmailNotification()" class="w-full bg-ezgreen hover:bg-ezgreen-dark text-white font-bold py-3.5 px-6 rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+          <i class="fa-brands fa-google text-lg"></i> 開啟 Google Mail 發送通知信
         </button>
-        <button onclick="toggleModal(false)" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2.5 px-6 rounded-2xl transition-all text-sm">
+        <button onclick="toggleModal(false)" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 px-6 rounded-xl transition-all text-sm">
           回到指南畫面繼續查看
         </button>
       </div>
@@ -271,13 +244,13 @@
   </div>
 
   <!-- Dynamic Toast System -->
-  <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 bg-slate-900/90 text-white text-xs px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 transition-all duration-300 translate-y-10 opacity-0 pointer-events-none">
+  <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 bg-slate-800 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 transition-all duration-300 translate-y-10 opacity-0 pointer-events-none">
     <span id="toastIcon" class="text-ezgreen"><i class="fa-solid fa-circle-check"></i></span>
     <span id="toastText">訊息載入中</span>
   </div>
 
   <script>
-    // Configurable Default Task List Template
+    // 任務資料結構 (加入 subTasks 陣列以支援 9 堂課)
     const defaultTasks = [
       { id: 1, text: '報到資料繳交 — 身分證正影本', category: 'doc', completed: false },
       { id: 2, text: '報到資料繳交 — 二吋大頭照 1 張', category: 'doc', completed: false },
@@ -286,72 +259,198 @@
       { id: 5, text: '報到資料繳交 — 前任工作離職證明書正本', category: 'doc', completed: false },
       { id: 6, text: '報到資料繳交 — 退伍令/結訓令影本(女性免繳)', category: 'doc', completed: false },
       { id: 7, text: '報到資料繳交 — 體格檢查報告正本', category: 'doc', completed: false },
-      { id: 8, text: '報到資料繳交 — 其他 (專業/技術證照、外籍/更名等身分證明影本)', category: 'doc', completed: false },
+      { id: 8, text: '報到資料繳交 — 其他 (專業技術證照、外籍/更名等身分文件)', category: 'doc', completed: false },
       { id: 9, text: '領取門禁卡', category: 'admin', completed: false },
       { id: 10, text: '追蹤易遊網官方 IG', category: 'social', completed: false },
       { id: 11, text: '追蹤易遊網官方 Threads', category: 'social', completed: false },
       { id: 12, text: '修改電腦登入密碼', category: 'system', completed: false },
       { id: 13, text: '加入易遊網企業會員', category: 'system', completed: false },
-      { id: 14, text: '完成新人必修課程', category: 'system', completed: false }
+      { 
+        id: 14, 
+        text: '完成新人必修課程', 
+        category: 'course', 
+        completed: false,
+        expanded: false, // 控制手風琴開關
+        subTasks: [
+          { id: 'sub1', text: '公司簡介暨公司願景與方向', completed: false },
+          { id: 'sub2', text: '出缺勤規定 & 出勤系統教學', completed: false },
+          { id: 'sub3', text: '性騷擾防治暨公司規範相關辦法', completed: false },
+          { id: 'sub4', text: '消防急救常識與職業安全衛生知識', completed: false },
+          { id: 'sub5', text: '內部辦公軟體介紹', completed: false },
+          { id: 'sub6', text: '淺談資訊安全', completed: false },
+          { id: 'sub7', text: '誠信紀律暨旅遊法規', completed: false },
+          { id: 'sub8', text: '旅遊定型化契約書', completed: false },
+          { id: 'sub9', text: 'EZ旅遊商品分類概述', completed: false }
+        ]
+      }
     ];
 
-    // State Variables
     let userState = {
       empId: '',
       empName: '',
-      tasks: [...defaultTasks]
+      tasks: JSON.parse(JSON.stringify(defaultTasks))
     };
 
-    // Load Local Storage on startup
+    // 儲存 Key 換新，確保本次結構更新不受舊資料干擾
+    const STORAGE_KEY = 'ezTravel_Onboarding_v3_Accordion';
+
     function initApp() {
-      const savedState = localStorage.getItem('ezTravel_NewcomerState_v2');
+      const savedState = localStorage.getItem(STORAGE_KEY);
       if (savedState) {
         try {
           const parsed = JSON.parse(savedState);
-          userState = { ...userState, ...parsed };
-          if (!userState.tasks || userState.tasks.length !== defaultTasks.length) {
-            userState.tasks = [...defaultTasks];
+          userState.empId = parsed.empId || '';
+          userState.empName = parsed.empName || '';
+          // 復原任務狀態
+          if (parsed.tasks && parsed.tasks.length === defaultTasks.length) {
+            userState.tasks = parsed.tasks;
           }
         } catch (e) {
           console.error("Local Storage parse error:", e);
         }
       }
 
-      // Sync form values
-      document.getElementById('empIdInput').value = userState.empId || '';
-      document.getElementById('empNameInput').value = userState.empName || '';
-
-      // Event listeners
+      document.getElementById('empIdInput').value = userState.empId;
+      document.getElementById('empNameInput').value = userState.empName;
       document.getElementById('empIdInput').addEventListener('input', handleProfileChange);
       document.getElementById('empNameInput').addEventListener('input', handleProfileChange);
 
-      // Render Layout
-      updateDashboardUI();
+      handleProfileChange(); // 觸發一次更新歡迎語
       renderTaskCards();
+      updateDashboardUI();
     }
 
-    // Save State to LocalStorage
     function saveState() {
-      localStorage.setItem('ezTravel_NewcomerState_v2', JSON.stringify(userState));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(userState));
     }
 
-    // Tab switching mechanism
-    function switchTab(tabName) {
-      const tabs = ['tasks', 'ai', 'challenge'];
-      tabs.forEach(t => {
-        const btn = document.getElementById(`tabBtn-${t}`);
-        const panel = document.getElementById(`tab-${t}`);
-        if (t === tabName) {
-          btn.className = "flex-1 py-3 text-xs sm:text-sm font-extrabold rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 bg-white text-ezgreen-dark shadow-sm";
-          panel.classList.remove('hidden');
+    function renderTaskCards() {
+      const container = document.getElementById('taskList');
+      container.innerHTML = '';
+
+      userState.tasks.forEach((task) => {
+        const isCompleted = task.completed;
+        // 卡片外觀：圓角白底、有淡淡陰影、完成時左側綠線
+        const cardClasses = `bg-white rounded-2xl p-4 border border-slate-100 shadow-sm transition-all relative ${isCompleted ? 'border-l-4 border-l-ezgreen' : ''}`;
+
+        // 依據類別設定樣式
+        let iconClass = '', colorClass = '', catText = '';
+        if (task.category === 'doc') { iconClass = 'fa-solid fa-folder'; colorClass = 'text-emerald-600'; catText = '報到資料'; }
+        else if (task.category === 'admin') { iconClass = 'fa-solid fa-key'; colorClass = 'text-blue-600'; catText = '行政管理'; }
+        else if (task.category === 'social') { iconClass = 'fa-brands fa-hashtag'; colorClass = 'text-pink-600'; catText = '社群關注'; }
+        else { iconClass = 'fa-solid fa-graduation-cap'; colorClass = 'text-amber-600'; catText = '系統與課程'; }
+
+        const card = document.createElement('div');
+        card.className = cardClasses;
+
+        // 主任務 HTML 結構
+        let htmlContent = `
+          <div class="flex items-start gap-3">
+            <!-- 圓形 Checkbox -->
+            <label class="relative flex items-center cursor-pointer mt-0.5 flex-shrink-0" onclick="event.stopPropagation()">
+              <input type="checkbox" class="sr-only peer" ${isCompleted ? 'checked' : ''} onchange="toggleMainTask(${task.id})">
+              <div class="w-6 h-6 rounded-full border-2 border-slate-300 peer-checked:bg-ezgreen peer-checked:border-ezgreen flex items-center justify-center transition-all bg-white shadow-inner">
+                 <i class="fa-solid fa-check text-white text-[10px] opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+              </div>
+            </label>
+            
+            <!-- 文字與分類 -->
+            <div class="flex-1 cursor-pointer" ${task.subTasks ? `onclick="toggleExpand(${task.id})"` : `onclick="toggleMainTask(${task.id})"`}>
+              <div class="text-[11px] font-bold ${colorClass} flex items-center gap-1.5 mb-0.5 tracking-wide">
+                <i class="${iconClass}"></i> ${catText}
+              </div>
+              <p class="text-[15px] font-semibold transition-all ${isCompleted ? 'text-slate-400 line-through' : 'text-slate-700'}">
+                ${task.text}
+              </p>
+            </div>
+        `;
+
+        // 如果有子任務 (9堂課)，加入下拉箭頭按鈕
+        if (task.subTasks) {
+          htmlContent += `
+            <button onclick="toggleExpand(${task.id})" class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center text-slate-400 transition-colors">
+              <i class="fa-solid fa-chevron-down transition-transform duration-300 ${task.expanded ? 'rotate-180' : ''}"></i>
+            </button>
+          </div>
+          
+          <!-- 手風琴展開區塊：9堂課程 -->
+          <div class="accordion-content ${task.expanded ? 'expanded' : ''} border-t border-slate-50 pt-3 pl-9 space-y-2.5">
+          `;
+          
+          task.subTasks.forEach(sub => {
+            htmlContent += `
+              <label class="flex items-start gap-2.5 cursor-pointer group">
+                <div class="relative flex items-center mt-0.5 flex-shrink-0">
+                  <input type="checkbox" class="sr-only peer" ${sub.completed ? 'checked' : ''} onchange="toggleSubTask(${task.id}, '${sub.id}')">
+                  <div class="w-4 h-4 rounded border-2 border-slate-300 peer-checked:bg-ezyellow peer-checked:border-ezyellow flex items-center justify-center transition-all">
+                    <i class="fa-solid fa-check text-slate-800 text-[9px] opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                  </div>
+                </div>
+                <span class="text-sm font-medium transition-all group-hover:text-slate-800 ${sub.completed ? 'text-slate-400 line-through' : 'text-slate-600'}">
+                  ${sub.text}
+                </span>
+              </label>
+            `;
+          });
+          htmlContent += `</div>`; // 結束手風琴區塊
         } else {
-          btn.className = "flex-1 py-3 text-xs sm:text-sm font-extrabold rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 text-slate-500 hover:text-ezgreen-dark";
-          panel.classList.add('hidden');
+          htmlContent += `</div>`; // 結束一般任務區塊
         }
+
+        card.innerHTML = htmlContent;
+        container.appendChild(card);
       });
     }
 
-    // PROFILE MANAGEMENT
+    // 展開/收合手風琴
+    function toggleExpand(id) {
+      const task = userState.tasks.find(t => t.id === id);
+      if(task && task.subTasks) {
+        task.expanded = !task.expanded;
+        saveState();
+        renderTaskCards(); // 重新渲染以套用 CSS 動畫
+      }
+    }
+
+    // 切換主任務狀態 (連動子任務)
+    function toggleMainTask(id) {
+      const task = userState.tasks.find(t => t.id === id);
+      if(task) {
+        task.completed = !task.completed;
+        
+        // 若有子任務，全部跟隨主任務狀態
+        if (task.subTasks) {
+          task.subTasks.forEach(s => s.completed = task.completed);
+        }
+
+        saveState();
+        renderTaskCards();
+        updateDashboardUI();
+        if (task.completed) showToast(`任務完成：${task.text}`, 'success');
+      }
+    }
+
+    // 切換子任務狀態 (連動回推主任務)
+    function toggleSubTask(parentId, subId) {
+      const parent = userState.tasks.find(t => t.id === parentId);
+      if (parent && parent.subTasks) {
+        const sub = parent.subTasks.find(s => s.id === subId);
+        if(sub) {
+          sub.completed = !sub.completed;
+          
+          // 檢查是否所有子任務皆已完成
+          const allCompleted = parent.subTasks.every(s => s.completed);
+          parent.completed = allCompleted;
+
+          saveState();
+          renderTaskCards();
+          updateDashboardUI();
+          if (sub.completed) showToast(`已完成課程：${sub.text}`, 'success');
+        }
+      }
+    }
+
+    // 更新儀表板與狀態
     function handleProfileChange() {
       userState.empId = document.getElementById('empIdInput').value.trim();
       userState.empName = document.getElementById('empNameInput').value.trim();
@@ -362,192 +461,76 @@
       
       if (userState.empName) {
         welcomeEl.innerHTML = `〔<span class="text-ezgreen-dark">${userState.empName}</span>〕歡迎您加入易遊網！`;
-        quoteEl.innerText = `凹豆兒恭喜 ${userState.empName} 正式登上我們易遊的冒險列車！`;
+        quoteEl.innerText = `凹豆兒恭喜 ${userState.empName} 登上我們易遊的冒險列車！`;
       } else {
         welcomeEl.innerText = "哈囉，歡迎加入易遊網！";
         quoteEl.innerText = "歡迎加入！請依序完成下方任務，開啟你的易遊網旅程喔！";
       }
-
       updateDashboardUI();
     }
 
-    // PROGRESS RADIAL & TEXT RULES UPDATE
     function updateDashboardUI() {
+      // 總進度固定看 14 個主任務
       const tasksCount = userState.tasks.length;
       const completedCount = userState.tasks.filter(t => t.completed).length;
-      const percentage = tasksCount > 0 ? Math.round((completedCount / tasksCount) * 100) : 0;
+      const percentage = Math.round((completedCount / tasksCount) * 100);
 
       document.getElementById('completedCount').innerText = completedCount;
 
       const circle = document.getElementById('progressCircle');
-      const radius = circle.r.baseVal.value;
-      const circumference = radius * 2 * Math.PI;
-      const offset = circumference - (percentage / 100) * circumference;
+      const offset = 414.7 - (percentage / 100) * 414.7;
       circle.style.strokeDashoffset = offset;
 
       document.getElementById('percentText').innerText = `${percentage}%`;
 
       const incentiveEl = document.getElementById('incentiveMsg');
-      const mascot = document.getElementById('mascotSvg');
+      const nameToDisplay = userState.empName || "親愛的新同仁";
       let encourageText = '';
 
-      const nameToDisplay = userState.empName || "親愛的新同仁";
-
-      if (percentage === 0) {
-        encourageText = "🚀 準備起飛";
-      } else if (percentage > 0 && percentage < 30) {
-        encourageText = "✈️ 準備起飛";
-      } else if (percentage >= 30 && percentage < 50) {
-        encourageText = "🎒 漸入佳境";
-      } else if (percentage >= 50 && percentage < 80) {
-        encourageText = "🗺️ 持之以恆";
-      } else if (percentage >= 80 && percentage < 100) {
-        encourageText = "🏔️ 功成在即";
-      } else if (percentage === 100) {
-        encourageText = `🏆 〔${nameToDisplay}〕，恭喜您已經成功闖關完成，並成為易遊網的初級玩家！`;
-      }
+      if (percentage === 0) encourageText = "🚀 準備起飛";
+      else if (percentage < 30) encourageText = "✈️ 準備起飛";
+      else if (percentage < 50) encourageText = "🎒 漸入佳境";
+      else if (percentage < 80) encourageText = "🗺️ 持之以恆";
+      else if (percentage < 100) encourageText = "🏔️ 功成在即";
+      else encourageText = `🏆 〔${nameToDisplay}〕，恭喜您已經成功闖關完成，並成為易遊網的初級玩家！`;
 
       incentiveEl.innerHTML = encourageText;
 
-      if (percentage === 100) {
-        if (completedCount === tasksCount) {
-          trigger100PercentSuccess();
-        }
-      }
+      // 觸發 100% 慶祝
+      if (percentage === 100) trigger100PercentSuccess();
     }
 
-    // COMPILING TASK LIST LAYOUT
-    function renderTaskCards() {
-      const container = document.getElementById('taskList');
-      container.innerHTML = '';
-
-      userState.tasks.forEach((task) => {
-        const isCompleted = task.completed;
-        const cardClass = isCompleted 
-          ? 'border-ezgreen-light bg-ezgreen-light/20 shadow-none scale-[0.98]' 
-          : 'border-slate-100 hover:border-ezgreen/30 bg-white hover:shadow-card';
-
-        let categoryIcon = '';
-        let badgeColor = '';
-        if (task.category === 'doc') {
-          categoryIcon = '<i class="fa-regular fa-folder-open text-emerald-500"></i>';
-          badgeColor = 'text-emerald-500';
-        } else if (task.category === 'admin') {
-          categoryIcon = '<i class="fa-solid fa-address-card text-blue-500"></i>';
-          badgeColor = 'text-blue-500';
-        } else if (task.category === 'social') {
-          categoryIcon = '<i class="fa-brands fa-hashtag text-pink-500 animate-pulse"></i>';
-          badgeColor = 'text-pink-500';
-        } else {
-          categoryIcon = '<i class="fa-solid fa-laptop-code text-amber-500"></i>';
-          badgeColor = 'text-amber-500';
-        }
-
-        const taskCard = document.createElement('div');
-        taskCard.className = `flex items-start gap-3.5 p-4 rounded-2xl border transition-all duration-300 bounce-hover cursor-pointer ${cardClass}`;
-        taskCard.setAttribute('onclick', `toggleTask(${task.id})`);
-
-        taskCard.innerHTML = `
-          <div class="flex-shrink-0 mt-0.5">
-            <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all ${
-              isCompleted 
-                ? 'bg-ezgreen border-ezgreen text-white scale-110 shadow-glow' 
-                : 'border-slate-300 hover:border-ezgreen'
-            }">
-              ${isCompleted ? '<i class="fa-solid fa-check text-sm font-black"></i>' : ''}
-            </div>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-1.5 mb-0.5">
-              ${categoryIcon}
-              <span class="text-[10px] font-bold uppercase tracking-widest ${badgeColor}">
-                ${task.category === 'doc' ? '報到資料' : task.category === 'admin' ? '行政事務' : task.category === 'social' ? '社群任務' : '系統必修'}
-              </span>
-            </div>
-            <p class="text-sm font-semibold transition-all ${
-              isCompleted ? 'line-through text-slate-400 font-normal' : 'text-slate-700'
-            }">
-              ${task.text}
-            </p>
-          </div>
-        `;
-        container.appendChild(taskCard);
-      });
+    function resetAllProgress() {
+      userState.tasks = JSON.parse(JSON.stringify(defaultTasks));
+      saveState();
+      renderTaskCards();
+      updateDashboardUI();
+      showToast("闖關挑戰進度已全數重設！", "info");
     }
 
-    function toggleTask(id) {
-      const task = userState.tasks.find(t => t.id === id);
-      if (task) {
-        task.completed = !task.completed;
-        saveState();
-        renderTaskCards();
-        updateDashboardUI();
-        
-        if (task.completed) {
-          showToast(`任務完成：${task.text.substring(0, 10)}...`, 'success');
-        }
-      }
-    }
-
-    // CELEBRATION PROTOCOLS
     function trigger100PercentSuccess() {
-      triggerConfettiRain();
-
       const empId = userState.empId || '未填寫員編';
       const empName = userState.empName || '未填寫姓名';
       
-      document.getElementById('celebrationName').innerHTML = `
-        〔<span class="underline decoration-ezyellow decoration-4">${empName}</span>〕小夥伴，您已完成所有挑戰！
-      `;
-
+      document.getElementById('celebrationName').innerHTML = `〔<span class="underline decoration-ezyellow decoration-4">${empName}</span>〕小夥伴，您已完成所有挑戰！`;
       document.getElementById('emailSubjectPreview').innerText = `〔${empId}〕＿〔${empName}〕已完成新人闖關指南並成為易遊網初級玩家`;
+      
       toggleModal(true);
-    }
-
-    function triggerConfettiRain() {
+      
+      // 彩帶動畫
       const duration = 4 * 1000;
       const animationEnd = Date.now() + duration;
       const defaults = { startVelocity: 25, spread: 360, ticks: 60, zIndex: 100 };
-
-      function randomInRange(min, max) {
-        return Math.random() * (max - min) + min;
-      }
-
+      function randomInRange(min, max) { return Math.random() * (max - min) + min; }
       const interval = setInterval(function() {
         const timeLeft = animationEnd - Date.now();
         if (timeLeft <= 0) return clearInterval(interval);
-
         const particleCount = 50 * (timeLeft / duration);
         confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
         confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
       }, 250);
     }
 
-    function sendEmailNotification() {
-      const empId = userState.empId || '未填寫員編';
-      const empName = userState.empName || '未填寫姓名';
-
-      const recipient = 'eztraining@eztravel.com.tw';
-      const subject = `〔${empId}〕＿〔${empName}〕已完成新人闖關指南並成為易遊網初級玩家`;
-      const body = `親愛的易遊網訓練團隊您好，\n\n我是新進同仁 ${empName} (員工編號: ${empId})。\n\n我已經成功勾選並通關所有「新人闖關指南」任務！\n目前通關進度為 100% 滿分！\n特此發送本通知信。期待未來與大家一起在易遊網創造美好回憶。\n\n系統紀錄時間: ${new Date().toLocaleString()}\n本信件由「新人闖關指南 APP」一鍵生成。`;
-
-      // 智慧分流：判斷使用者是用電腦還是手機
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      
-      if (isMobile) {
-        // 【手機版】使用原生 mailto，確保能喚醒手機底層的郵件 APP
-        const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailtoLink;
-      } else {
-        // 【桌機網頁版】強制使用 Google Mail 網頁版，精準打擊 Outlook 彈出的問題
-        const gmailWebLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.open(gmailWebLink, '_blank');
-      }
-      
-      showToast("正在為您開啟郵件系統...", "success");
-    }
-
-    // MODAL TOGGLERS
     function toggleModal(show) {
       const modal = document.getElementById('celebrationModal');
       const card = document.getElementById('modalCard');
@@ -560,40 +543,37 @@
       }
     }
 
-    // SYSTEM TOASTS
+    function sendEmailNotification() {
+      const empId = userState.empId || '未填寫員編';
+      const empName = userState.empName || '未填寫姓名';
+      const recipient = 'eztraining@eztravel.com.tw';
+      const subject = `〔${empId}〕＿〔${empName}〕已完成新人闖關指南並成為易遊網初級玩家`;
+      const body = `親愛的易遊網訓練團隊您好，\n\n新進同仁 ${empName} (員工編號: ${empId}) 已經成功通關所有「新人闖關指南」任務！(含必修課程)\n特此發送本通知信以便記錄。\n\n系統紀錄時間: ${new Date().toLocaleString()}`;
+
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoLink;
+      } else {
+        const gmailWebLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.open(gmailWebLink, '_blank');
+      }
+      showToast("正在開啟郵件系統...", "success");
+    }
+
     function showToast(text, type = 'info') {
       const toast = document.getElementById('toast');
-      const toastText = document.getElementById('toastText');
-      const toastIcon = document.getElementById('toastIcon');
-
-      toastText.innerText = text;
-      if (type === 'success') {
-        toastIcon.innerHTML = '<i class="fa-solid fa-circle-check text-ezgreen"></i>';
-      } else {
-        toastIcon.innerHTML = '<i class="fa-solid fa-circle-info text-amber-400"></i>';
-      }
-
+      document.getElementById('toastText').innerText = text;
+      document.getElementById('toastIcon').innerHTML = type === 'success' ? '<i class="fa-solid fa-circle-check text-ezgreen"></i>' : '<i class="fa-solid fa-circle-info text-amber-400"></i>';
       toast.classList.remove('translate-y-10', 'opacity-0', 'pointer-events-none');
       toast.classList.add('translate-y-0', 'opacity-100');
-
       setTimeout(() => {
         toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('translate-y-10', 'opacity-0', 'pointer-events-none');
       }, 3000);
     }
 
-    function resetAllProgress() {
-      userState.tasks = defaultTasks.map(t => ({ ...t, completed: false }));
-      saveState();
-      renderTaskCards();
-      updateDashboardUI();
-      showToast("闖關挑戰進度已全數重設！", "info");
-    }
-
-    // ONLOAD TRIGGER
-    window.onload = function() {
-      initApp();
-    };
+    window.onload = initApp;
   </script>
 </body>
 </html>
