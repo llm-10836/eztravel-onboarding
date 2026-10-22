@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>易遊網 ezTravel - 新人闖關指南</title>
+  
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts - Inter & Noto Sans TC -->
@@ -75,15 +76,14 @@
       margin-top: 0;
     }
     .accordion-content.expanded {
-      max-height: 500px; /* 足夠容納 9 堂課的高度 */
+      max-height: 500px;
       opacity: 1;
-      margin-top: 0.75rem; /* mt-3 */
+      margin-top: 0.75rem;
     }
   </style>
 </head>
 <body class="min-h-screen pb-12 antialiased">
 
-  <!-- Header / Navigation Bar -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-ezgreen-light py-3 px-4 shadow-sm">
     <div class="max-w-xl mx-auto flex items-center justify-between">
       <div class="flex items-center space-x-2">
@@ -103,7 +103,6 @@
 
   <main class="max-w-xl mx-auto px-4 mt-6 space-y-6">
 
-    <!-- Mascot Welcome & Profile Card (保留上一版的設計) -->
     <section class="bg-white rounded-3xl p-6 shadow-custom border border-ezgreen-light relative overflow-hidden">
       <div class="absolute -right-10 -bottom-10 opacity-5 pointer-events-none transform rotate-12">
         <i class="fa-solid fa-compass text-9xl text-ezgreen"></i>
@@ -144,7 +143,6 @@
       </div>
     </section>
 
-    <!-- Progress Indicator Dashboard (保留上一版的設計) -->
     <section class="bg-white rounded-3xl p-6 shadow-custom border border-ezgreen-light relative overflow-hidden">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -179,13 +177,12 @@
       </div>
     </section>
 
-    <!-- Tasks Checklist (重構為截圖指定的卡片樣式與折疊清單) -->
     <section class="bg-white rounded-3xl p-6 shadow-custom border border-ezgreen-light transition-all">
       <div class="flex items-center justify-between mb-4">
         <div>
           <h3 class="text-lg font-extrabold text-slate-800 flex items-center gap-2">
             <i class="fa-solid fa-route text-ezgreen"></i>
-            通關挑戰任務 (<span id="completedCount" class="mx-1 text-ezgreen-dark">0</span>/ 14)
+            通關挑戰任務 (<span id="completedCount" class="mx-1 text-ezgreen-dark">0</span>/ 13)
           </h3>
           <p class="text-xs text-slate-400 mt-1">勾選後同步儲存於本機並提升完成度</p>
         </div>
@@ -194,7 +191,7 @@
         </button>
       </div>
 
-      <!-- 分類標籤 (依據截圖設計) -->
+      <!-- 分類標籤 -->
       <div class="flex flex-wrap gap-2 mb-5 border-b border-slate-100 pb-5">
         <span class="text-xs font-bold px-3 py-1 rounded flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-100"><i class="fa-regular fa-folder-open"></i> 報到資料繳交</span>
         <span class="text-xs font-bold px-3 py-1 rounded flex items-center gap-1 bg-blue-50 text-blue-700 border border-blue-100"><i class="fa-solid fa-key"></i> 行政管理</span>
@@ -210,7 +207,6 @@
 
   </main>
 
-  <!-- 100% Celebration Modal Dialog -->
   <div id="celebrationModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden transition-all duration-300">
     <div class="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl border-4 border-ezgreen relative overflow-hidden transform scale-95 transition-transform duration-300" id="modalCard">
       <div class="w-20 h-20 bg-ezyellow rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white shadow-lg">
@@ -250,7 +246,7 @@
   </div>
 
   <script>
-    // 任務資料結構 (加入 subTasks 陣列以支援 9 堂課)
+    // 任務資料結構 (總計 13 項任務，已移除企業會員)
     const defaultTasks = [
       { id: 1, text: '報到資料繳交 — 身分證正影本', category: 'doc', completed: false },
       { id: 2, text: '報到資料繳交 — 二吋大頭照 1 張', category: 'doc', completed: false },
@@ -264,13 +260,12 @@
       { id: 10, text: '追蹤易遊網官方 IG', category: 'social', completed: false },
       { id: 11, text: '追蹤易遊網官方 Threads', category: 'social', completed: false },
       { id: 12, text: '修改電腦登入密碼', category: 'system', completed: false },
-      { id: 13, text: '加入易遊網企業會員', category: 'system', completed: false },
       { 
-        id: 14, 
+        id: 13, 
         text: '完成新人必修課程', 
         category: 'course', 
         completed: false,
-        expanded: false, // 控制手風琴開關
+        expanded: false, 
         subTasks: [
           { id: 'sub1', text: '公司簡介暨公司願景與方向', completed: false },
           { id: 'sub2', text: '出缺勤規定 & 出勤系統教學', completed: false },
@@ -289,8 +284,8 @@
       tasks: JSON.parse(JSON.stringify(defaultTasks))
     };
 
-    // 儲存 Key 換新，確保本次結構更新不受舊資料干擾
-    const STORAGE_KEY = 'ezTravel_Onboarding_v4_Accordion';
+    // 儲存 Key 換新，確保本次 13 項任務更新不受舊資料干擾
+    const STORAGE_KEY = 'ezTravel_Onboarding_v5_Accordion';
 
     function initApp() {
       const savedState = localStorage.getItem(STORAGE_KEY);
@@ -299,7 +294,6 @@
           const parsed = JSON.parse(savedState);
           userState.empId = parsed.empId || '';
           userState.empName = parsed.empName || '';
-          // 復原任務狀態
           if (parsed.tasks && parsed.tasks.length === defaultTasks.length) {
             userState.tasks = parsed.tasks;
           }
@@ -313,7 +307,7 @@
       document.getElementById('empIdInput').addEventListener('input', handleProfileChange);
       document.getElementById('empNameInput').addEventListener('input', handleProfileChange);
 
-      handleProfileChange(); // 觸發一次更新歡迎語
+      handleProfileChange();
       renderTaskCards();
       updateDashboardUI();
     }
@@ -328,10 +322,8 @@
 
       userState.tasks.forEach((task) => {
         const isCompleted = task.completed;
-        // 卡片外觀：圓角白底、有淡淡陰影、完成時左側綠線
         const cardClasses = `bg-white rounded-2xl p-4 border border-slate-100 shadow-sm transition-all relative ${isCompleted ? 'border-l-4 border-l-ezgreen' : ''}`;
 
-        // 依據類別設定樣式
         let iconClass = '', colorClass = '', catText = '';
         if (task.category === 'doc') { iconClass = 'fa-solid fa-folder'; colorClass = 'text-emerald-600'; catText = '報到資料'; }
         else if (task.category === 'admin') { iconClass = 'fa-solid fa-key'; colorClass = 'text-blue-600'; catText = '行政管理'; }
@@ -341,10 +333,8 @@
         const card = document.createElement('div');
         card.className = cardClasses;
 
-        // 主任務 HTML 結構
         let htmlContent = `
           <div class="flex items-start gap-3">
-            <!-- 圓形 Checkbox -->
             <label class="relative flex items-center cursor-pointer mt-0.5 flex-shrink-0" onclick="event.stopPropagation()">
               <input type="checkbox" class="sr-only peer" ${isCompleted ? 'checked' : ''} onchange="toggleMainTask(${task.id})">
               <div class="w-6 h-6 rounded-full border-2 border-slate-300 peer-checked:bg-ezgreen peer-checked:border-ezgreen flex items-center justify-center transition-all bg-white shadow-inner">
@@ -352,7 +342,6 @@
               </div>
             </label>
             
-            <!-- 文字與分類 -->
             <div class="flex-1 cursor-pointer" ${task.subTasks ? `onclick="toggleExpand(${task.id})"` : `onclick="toggleMainTask(${task.id})"`}>
               <div class="text-[11px] font-bold ${colorClass} flex items-center gap-1.5 mb-0.5 tracking-wide">
                 <i class="${iconClass}"></i> ${catText}
@@ -363,7 +352,6 @@
             </div>
         `;
 
-        // 如果有子任務 (9堂課)，加入下拉箭頭按鈕
         if (task.subTasks) {
           htmlContent += `
             <button onclick="toggleExpand(${task.id})" class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-50 hover:bg-slate-100 flex items-center justify-center text-slate-400 transition-colors">
@@ -371,7 +359,6 @@
             </button>
           </div>
           
-          <!-- 手風琴展開區塊：9堂課程 -->
           <div class="accordion-content ${task.expanded ? 'expanded' : ''} border-t border-slate-50 pt-3 pl-9 space-y-2.5">
           `;
           
@@ -390,9 +377,9 @@
               </label>
             `;
           });
-          htmlContent += `</div>`; // 結束手風琴區塊
+          htmlContent += `</div>`; 
         } else {
-          htmlContent += `</div>`; // 結束一般任務區塊
+          htmlContent += `</div>`; 
         }
 
         card.innerHTML = htmlContent;
@@ -400,23 +387,20 @@
       });
     }
 
-    // 展開/收合手風琴
     function toggleExpand(id) {
       const task = userState.tasks.find(t => t.id === id);
       if(task && task.subTasks) {
         task.expanded = !task.expanded;
         saveState();
-        renderTaskCards(); // 重新渲染以套用 CSS 動畫
+        renderTaskCards(); 
       }
     }
 
-    // 切換主任務狀態 (連動子任務)
     function toggleMainTask(id) {
       const task = userState.tasks.find(t => t.id === id);
       if(task) {
         task.completed = !task.completed;
         
-        // 若有子任務，全部跟隨主任務狀態
         if (task.subTasks) {
           task.subTasks.forEach(s => s.completed = task.completed);
         }
@@ -428,7 +412,6 @@
       }
     }
 
-    // 切換子任務狀態 (連動回推主任務)
     function toggleSubTask(parentId, subId) {
       const parent = userState.tasks.find(t => t.id === parentId);
       if (parent && parent.subTasks) {
@@ -436,7 +419,6 @@
         if(sub) {
           sub.completed = !sub.completed;
           
-          // 檢查是否所有子任務皆已完成
           const allCompleted = parent.subTasks.every(s => s.completed);
           parent.completed = allCompleted;
 
@@ -448,7 +430,6 @@
       }
     }
 
-    // 更新儀表板與狀態
     function handleProfileChange() {
       userState.empId = document.getElementById('empIdInput').value.trim();
       userState.empName = document.getElementById('empNameInput').value.trim();
@@ -468,7 +449,6 @@
     }
 
     function updateDashboardUI() {
-      // 總進度固定看 14 個主任務
       const tasksCount = userState.tasks.length;
       const completedCount = userState.tasks.filter(t => t.completed).length;
       const percentage = Math.round((completedCount / tasksCount) * 100);
@@ -494,7 +474,6 @@
 
       incentiveEl.innerHTML = encourageText;
 
-      // 觸發 100% 慶祝
       if (percentage === 100) trigger100PercentSuccess();
     }
 
@@ -515,7 +494,6 @@
       
       toggleModal(true);
       
-      // 彩帶動畫
       const duration = 4 * 1000;
       const animationEnd = Date.now() + duration;
       const defaults = { startVelocity: 25, spread: 360, ticks: 60, zIndex: 100 };
