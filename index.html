@@ -111,7 +111,7 @@
       <div class="flex flex-col sm:flex-row items-center gap-5 relative z-10">
         <div class="relative flex-shrink-0">
           <div class="w-24 h-24 bg-gradient-to-b from-ezgreen-light to-white rounded-full border-2 border-ezgreen flex items-center justify-center shadow-inner relative overflow-hidden">
-            <img src="6-12_3.png" alt="凹豆兒" class="w-20 h-20 object-contain" />
+            <img src="6-12_3.png" alt="凹豆兒" class="w-20 h-20 object-contain" onerror="this.src='https://placehold.co/80x80/11D073/white?text=ez'" />
           </div>
         </div>
 
@@ -182,7 +182,7 @@
         <div>
           <h3 class="text-lg font-extrabold text-slate-800 flex items-center gap-2">
             <i class="fa-solid fa-route text-ezgreen"></i>
-            通關挑戰任務 (<span id="completedCount" class="mx-1 text-ezgreen-dark">0</span>/ 13)
+            通關挑戰任務 (<span id="completedCount" class="mx-1 text-ezgreen-dark">0</span>/ 14)
           </h3>
           <p class="text-xs text-slate-400 mt-1">勾選後同步儲存於本機並提升完成度</p>
         </div>
@@ -273,9 +273,12 @@
           { id: 'sub4', text: '消防急救常識與職業安全衛生知識', completed: false },
           { id: 'sub5', text: '內部辦公軟體介紹', completed: false },
           { id: 'sub6', text: '淺談資訊安全', completed: false },
-          { id: 'sub7', text: '誠信紀律暨旅遊法規', completed: false }
+          { id: 'sub7', text: '誠信紀律暨旅遊法規', completed: false },
+          { id: 'sub8', text: '外部課程: 一般職業安全衛生教育訓練課程(上)', completed: false },
+          { id: 'sub9', text: '外部課程: 一般職業安全衛生教育訓練課程(下)', completed: false }
         ]
-      }
+      },
+      { id: 14, text: '下載外部課程學習時數證明', category: 'course', completed: false }
     ];
 
     let userState = {
@@ -284,8 +287,8 @@
       tasks: JSON.parse(JSON.stringify(defaultTasks))
     };
 
-    // 儲存 Key 換新，確保本次 13 項任務更新不受舊資料干擾
-    const STORAGE_KEY = 'ezTravel_Onboarding_v5_Accordion';
+    // 儲存 Key 換新，確保本次 14 項任務更新不受舊資料干擾
+    const STORAGE_KEY = 'ezTravel_Onboarding_v6_Accordion';
 
     function initApp() {
       const savedState = localStorage.getItem(STORAGE_KEY);
@@ -519,6 +522,7 @@
       }
     }
 
+    // 更新：改回強制使用 Gmail 網頁版，以符合 9 成以上使用者的最佳體驗
     function sendEmailNotification() {
       const empId = userState.empId || '未填寫員編';
       const empName = userState.empName || '未填寫姓名';
@@ -528,13 +532,15 @@
 
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       if (isMobile) {
+        // 手機版維持 mailto 讓系統決定，因為手機較難直接開啟網頁版 Gmail
         const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         window.location.href = mailtoLink;
       } else {
+        // 電腦版強制開啟 Google Mail 網頁
         const gmailWebLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         window.open(gmailWebLink, '_blank');
       }
-      showToast("正在開啟郵件系統...", "success");
+      showToast("正在開啟 Google Mail...", "success");
     }
 
     function showToast(text, type = 'info') {
