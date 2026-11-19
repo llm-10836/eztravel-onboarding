@@ -76,7 +76,7 @@
       margin-top: 0;
     }
     .accordion-content.expanded {
-      max-height: 500px;
+      max-height: 800px;
       opacity: 1;
       margin-top: 0.75rem;
     }
@@ -275,7 +275,8 @@
           { id: 'sub6', text: '淺談資訊安全', completed: false },
           { id: 'sub7', text: '誠信紀律暨旅遊法規', completed: false },
           { id: 'sub8', text: '外部課程: 一般職業安全衛生教育訓練課程(上)', completed: false },
-          { id: 'sub9', text: '外部課程: 一般職業安全衛生教育訓練課程(下)', completed: false }
+          { id: 'sub9', text: '外部課程: 一般職業安全衛生教育訓練課程(下)', completed: false },
+          { id: 'sub10', text: '外部課程: 職場霸凌防治教育訓練(1)-職安法相關規定說明', completed: false }
         ]
       },
       { id: 14, text: '下載外部課程學習時數證明', category: 'course', completed: false }
@@ -287,9 +288,8 @@
       tasks: JSON.parse(JSON.stringify(defaultTasks))
     };
 
-    // 儲存 Key 換新，確保本次 14 項任務更新不受舊資料干擾
-    const STORAGE_KEY = 'ezTravel_Onboarding_v6_Accordion';
-
+    // 儲存 Key 換新，確保本次課程名稱更新不受舊資料干擾
+    const STORAGE_KEY = 'ezTravel_Onboarding_v8_Accordion';
     function initApp() {
       const savedState = localStorage.getItem(STORAGE_KEY);
       if (savedState) {
